@@ -1,37 +1,41 @@
 import { Button } from "@mui/material";
 import React from "react";
 import { useState } from "react"
-import ImageLogo from "./image.svg";
-import "./ImageUpload.css";
-import storage from "./firebase";
-import { ref, uploadBytes, uploadBytesResumable } from "firebase/storage"
+import ImageLogo from "src/image.svg";
+import "src/ImageUpload.css";
+import storage from "src/firebase";
+import { ref, uploadBytesResumable } from "firebase/storage"
 
 const ImageUploader = () => {
   const [loading, setLoading] = useState(false);
   const [isUploaded, setIsUploaded] = useState(false);
 
-  const onfileUploadToFirebase = (e) => {
+  const onfileUploadToFirebase = (e:React.ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.files[0].name)
-    const file = e.target.files[0];
-    const storageRef = ref(storage, "image/" + file.name);
-    // uploadBytes(storageRef, file).then((snapshot) => {
-    //   console.log('Uploaded a blob or file!');
-    // });
-    const uploadImage = uploadBytesResumable(storageRef, file);
+    if(e.target.files){
+      const file = e.target.files[0];
+      const storageRef = ref(storage, "image/" + file.name);
+      // uploadBytes(storageRef, file).then((snapshot) => {
+      //   console.log('Uploaded a blob or file!');
+      // });
+      const uploadImage = uploadBytesResumable(storageRef, file);
 
-    uploadImage.on(
-      "state_changed",
-      (snapshot) => {
-        setLoading(true);
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {
-        setLoading(false);
-        setIsUploaded(true);
-      }
-    );
+      uploadImage.on(
+        "state_changed",
+        (snapshot) => {
+          setLoading(true);
+        },
+        (err) => {
+          console.log(err);
+        },
+        () => {
+          setLoading(false);
+          setIsUploaded(true);
+        }
+      );
+      return
+    }
+
   };
   return (
     <>

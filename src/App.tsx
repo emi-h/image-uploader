@@ -1,7 +1,8 @@
-import "./App.css";
-import ImageUploader from "./ImageUploader";
+import "src/App.css";
+import ImageUploader from "src/ImageUploader";
+import React, { FC } from "react"
 
-function App() {
+const App:FC=()=> {
   return (
     <div className="App">
       {/* uplodaer */}
